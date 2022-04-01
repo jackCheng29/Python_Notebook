@@ -1,0 +1,73 @@
+# git单用户配置
+
+## 配置全局的config信息
+git config --global user.name "username"
+git config --global user.email "user@qq.com"
+
+## 查看全局配置信息
+git config --global --list
+
+## 生成秘钥
+ssh-keygen -t rsa -C "user@qq.com"
+
+## 将公钥添加到托管网站上，例:github
+将id_rsa.pub文件内容复制到 github网站 -> ssh公钥 -> 公钥，保存即可
+
+===========================
+
+# git多用户配置
+
+## 查看全局配置信息
+git config --global --list
+
+## 重置全局配置的用户名和邮箱
+git config --global --unset user.name
+git config --global --unset user.email
+
+## 生成秘钥
+ssh-keygen -t rsa -C "user@qq.com"
+enter后输入别名【默认是id_rsa，可自定义修改(jackcheng_id_rsa)】，接着一路回车即可
+或：
+
+## 配置 ~/.ssh/config
+touch config 
+
+Host：别名(自定义)
+HostName：仓库网站域名
+User：托管网站上的邮箱(推荐)/用户名
+PreferredAuthentications：指定优先使用哪种方式验证, 支持密码和秘钥验证方式
+IdentityFile：秘钥路径
+注：Host就是可以替代HostName使用的别名
+| ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ |
+|  Host jackcheng
+|  HostName github.com
+|  User ***@qq.com
+|  PreferredAuthentications publickey
+|  IdentityFile ~/.ssh/jackcheng_id_rsa
+|
+|  Host github2
+|  HostName github.com
+|  User ***(email/username)
+|  PreferredAuthentications publickey
+|  IdentityFile ~/.ssh/id_rsa
+|________________________________________|
+
+## 使用ssh -T 命令检测配置
+ssh -T git@jackcheng
+ssh -T git@github2
+
+## git 的配置分为三级别，System —> Global —>Local。System 即系统级别，Global 为配置的全局，Local 为仓库级别，优先级是 Local > Global > System。
+
+## 为本仓库单独配置用户名信息
+git config --local user.name "username"
+git config --local user.email "user@qq.com"
+
+## 查看本仓库的所有配置信息
+git config --local --list
+
+===========================
+配置完毕End
+
+
+git remote rm origin
+git remote add origin git@jackcheng:jackCheng29/Python_Notebook.git
